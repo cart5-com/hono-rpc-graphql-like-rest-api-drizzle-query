@@ -5,7 +5,4 @@ import * as userSchema from './user.schema';
 const schema = {
     ...userSchema,
 }
-
-const db = drizzle<typeof schema>(`file:${LOCAL_DB_PATH}`);
-
-export default db;
+export default drizzle<typeof schema>(`file:${LOCAL_DB_PATH}`, { schema });

@@ -1,24 +1,13 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { userRouter } from './api/user/user.route'
-import { createUser } from './test-apiClient'
-import type { createUserRequestType } from './apiClient'
+import { testCRUDOperations } from './test-crud'
 import type { HonoVariables } from './types/HonoVariables'
 
 const app = new Hono<HonoVariables>();
 
 app.get('/create-user', async (c) => {
-  const sampleUser: createUserRequestType = {
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    address: {
-      city: 'New York'
-    }
-  }
-  const user = await createUser(sampleUser)
-  return c.json({
-    user: user
-  })
+  return c.text((await testCRUDOperations()).join('\n'))
 })
 
 

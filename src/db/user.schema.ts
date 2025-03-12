@@ -15,7 +15,7 @@ export const userUpdateSchema = createUpdateSchema(usersTable);
 
 // one to one relationship
 export const userAddressTable = sqliteTable("user_address_table", {
-  userId: text("user_id").references(() => usersTable.id),
+  userId: text("user_id").notNull().unique(),
   address1: text("address_1"),
   address2: text("address_2"),
   city: text("city"),

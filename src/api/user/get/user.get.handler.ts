@@ -7,20 +7,16 @@ import type { HonoVariables } from "../../../types/HonoVariables";
 import { getUser_Service } from "./user.get.service";
 
 export const getUser_SchemaValidator = zValidator('json', z.object({
-    columns: z.object(
-        {
-            ...Object.fromEntries(
-                Object.keys(userSelectSchema.shape)
-                    .map(key => [key, z.boolean().optional()])
-            ),
-            address: z.object(
-                Object.fromEntries(
-                    Object.keys(userAddressSelectSchema.shape)
-                        .map(key => [key, z.boolean().optional()])
-                )
-            ).optional(),
-        }
-    )
+    columns: z.object({
+        ...Object.fromEntries(
+            Object.keys(userSelectSchema.shape).map(key => [key, z.boolean().optional()])
+        ),
+        address: z.object(
+            Object.fromEntries(
+                Object.keys(userAddressSelectSchema.shape).map(key => [key, z.boolean().optional()])
+            )
+        ).optional(),
+    }) as z.ZodType<Parameters<typeof getUser_Service>[1]>
 }))
 
 export const getUser_Handler = async (c: Context<

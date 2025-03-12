@@ -6,7 +6,7 @@ import type { HonoVariables } from './types/HonoVariables'
 
 const app = new Hono<HonoVariables>();
 
-app.get('/create-user', async (c) => {
+app.get('/test-user', async (c) => {
   return c.text((await testCRUDOperations()).join('\n'))
 })
 

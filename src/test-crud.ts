@@ -80,6 +80,7 @@ export const testCRUDOperations = async () => {
     },
     json: {
       columns: {
+        name: true,
         address: {
           city: true
         }

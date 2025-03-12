@@ -2,8 +2,9 @@
   "name": "hono-rpc-graphql-like-rest-api-drizzle-query",
   "type": "module",
   "scripts": {
-    "dev": "pnpm drizzle:push && tsx watch src/index.ts",
-    "drizzle:push": "drizzle-kit push --verbose --force --config=./drizzle.config.ts"
+    "dev": "pnpm drizzle:push && pnpm drizzle-studio & tsx watch src/index.ts",
+    "drizzle:push": "drizzle-kit push --verbose --force --config=./drizzle.config.ts",
+    "drizzle-studio": "drizzle-kit studio --port=7044 --config=./drizzle.config.ts"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.8",

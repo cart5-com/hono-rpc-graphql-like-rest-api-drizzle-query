@@ -89,25 +89,104 @@ src/
 
 ## Type-Safe API Client
 
-The project includes a type-safe API client that can be used to interact with the API:
+The project includes a type-safe API client that can be used to interact with the API. The API supports GraphQL-like capabilities for selecting specific columns and relations.
+
+### Database Schema
+
+#### User Table
+- `id`: UUID (primary key, auto-generated)
+- `email`: String (unique, required)
+- `name`: String (optional)
+- `age`: Integer (optional)
+
+#### User Address Table (One-to-One Relation)
+- `userId`: String (foreign key to User.id)
+- `address1`: String (optional)
+- `address2`: String (optional)
+- `city`: String (optional)
+- `state`: String (optional)
+- `postalCode`: String (optional)
+- `country`: String (optional)
+- `lat`: Float (optional)
+- `lng`: Float (optional)
+
+### Create Operation
+
+Create a user with optional address information:
 
 ```typescript
 import { apiClient } from './apiClient';
 
-// Create a user
+// Create a user with address
 const createUserResponse = await apiClient.api.user.$post({
   json: {
     email: 'user@example.com',
     name: 'John Doe',
-    age: 30
+    age: 30,
+    address: {
+      address1: '123 Main St',
+      city: 'San Francisco',
+      state: 'CA',
+      postalCode: '94105',
+      country: 'USA'
+    }
   }
 });
+```
 
-// Get a user
+### Get Operation
+
+Get a user with selective columns and relations:
+
+```typescript
+import { apiClient } from './apiClient';
+
+// Get a user with all fields
 const getUserResponse = await apiClient.api.user[':userId'].$post({
   param: { userId: 'user-id' }
 });
+
+// Get a user with selective columns
+const getUserSelectiveResponse = await apiClient.api.user[':userId'].$post({
+  param: { userId: 'user-id' },
+  json: {
+    columns: {
+      id: true,
+      name: true,
+      email: true,
+      // Selective address fields
+      address: {
+        city: true,
+        country: true
+      }
+    }
+  }
+});
 ```
+
+### Update Operation
+
+Update a user with optional address information:
+
+```typescript
+import { apiClient } from './apiClient';
+
+// Update user information
+const updateUserResponse = await apiClient.api.user[':userId'].$patch({
+  param: { userId: 'user-id' },
+  json: {
+    name: 'Updated Name',
+    age: 31,
+    address: {
+      city: 'New York',
+      state: 'NY',
+      postalCode: '10001'
+    }
+  }
+});
+```
+
+The API client provides type safety throughout the entire request/response cycle, ensuring that you're using the correct fields and types for each operation.
 
 ## License
 
